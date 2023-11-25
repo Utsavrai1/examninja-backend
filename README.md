@@ -17,7 +17,7 @@ ExamNinja is a powerful and user-friendly online exam portal designed to streaml
 
 Follow these steps to get started with ExamNinja:
 
-1. Clone the repository: `git clone https://github.com/your-username/exam-ninja.git`
+1. Clone the repository: `git clone https://github.com/Utsavrai1/exam-ninja.git`
 2. Install dependencies: `npm install`
 3. Configure your settings in `.env`.
 4. Run the application: `npm start`
