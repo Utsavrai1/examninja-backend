@@ -1,0 +1,25 @@
+{
+  "name": "examninja-backend",
+  "version": "1.0.0",
+  "description": "ExamNinja: Your ultimate online exam platform for seamless testing, secure assessments, and efficient evaluation. Elevate your learning experience effortlessly.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Utsavrai1",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.7",
+    "pg": "^8.11.3",
+    "uuid": "^9.0.1"
+  }
+}
