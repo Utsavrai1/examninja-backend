@@ -14,17 +14,39 @@ const signUp = asyncHandler(async (req, res) => {
 
     const hashPassword = bcrypt.hashSync(password, 10).toString();
 
-    const query = `Insert into Users values('${user_id}','${email}', '${hashPassword}','${name}','${user_type}')`;
-    console.log(query.blue);
-    client.query(
-      query,
-      function (err, result) {
-        if (err) {
-          return console.error("error running query", err);
+    const userExistQuery = `Select * from Users where email = '${email}'`;
+
+    client.query(userExistQuery, function (err, result) {
+      if (err) {
+        console.error("error running query", err);
+        res.status(500).json({
+          error: "Internal Server Error",
+        });
+      } else {
+        if (result.rows.length == 0) {
+          const query = `Insert into Users values('${user_id}','${email}', '${hashPassword}','${name}','${user_type}')`;
+          console.log(query.blue);
+          client.query(query, function (err, result) {
+            if (err) {
+              console.error("error running query", err);
+              res.status(500).json({
+                error: "Internal Server Error",
+              });
+            } else {
+              return res.status(200).json({
+                token: token,
+                user_id: user_id,
+                message: "User registered successfully",
+              });
+            }
+          });
+        } else {
+          return res.status(402).json({
+            error: "User already exists",
+          });
         }
-        console.log(result.rows);
       }
-    );
+    });
   } catch (err) {
     console.log(err.message);
     res.status(500).json({
@@ -33,4 +55,49 @@ const signUp = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { signUp };
+const logIn = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const fetchAddedUserQuery = `Select * from Users where email = '${email}'`;
+    client.query(fetchAddedUserQuery,async function (err, result) {
+      if (err) {
+        console.error("error running query", err);
+        res.status(500).json({
+          error: "Internal Server Error",
+        });
+      } else {
+        if (result.rows.length == 0) {
+          res.status(404).json({
+            error: "User Dosen't Exists",
+          });
+        } else {
+          const token = generateUserAccessToken(
+            result.rows[0].user_id,
+            result.rows[0].user_type,
+          );
+
+          const match = await bcrypt.compare(password, result.rows[0].password);
+          if (match) {
+            res.status(200).json({
+              token: token,
+              user_id: result.rows[0].user_id,
+              message: "User Logined successfully",
+            });
+          } else {
+            res.status(402).json({
+              error: "Invalid Password",
+            });
+          }
+        }
+      }
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+});
+
+module.exports = { signUp, logIn };
