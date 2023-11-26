@@ -25,7 +25,6 @@ const signUp = asyncHandler(async (req, res) => {
       } else {
         if (result.rows.length == 0) {
           const query = `Insert into Users values('${user_id}','${email}', '${hashPassword}','${name}','${user_type}')`;
-          console.log(query.blue);
           client.query(query, function (err, result) {
             if (err) {
               console.error("error running query", err);
@@ -36,6 +35,7 @@ const signUp = asyncHandler(async (req, res) => {
               return res.status(200).json({
                 token: token,
                 user_id: user_id,
+                user_type: user_type,
                 message: "User registered successfully",
               });
             }
@@ -82,6 +82,7 @@ const logIn = asyncHandler(async (req, res) => {
             res.status(200).json({
               token: token,
               user_id: result.rows[0].user_id,
+              user_type: result.rows[0].user_type,
               message: "User Logined successfully",
             });
           } else {

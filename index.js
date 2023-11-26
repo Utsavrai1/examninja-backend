@@ -40,9 +40,10 @@ app.use(express.json({ limit: "50mb" }));
 
 app.use(morgan("dev"));
 
-const client = require('./database/connection');
-const authRoutes = require("./routes/auth_routes");
+require('./database/connection');
 
+const authRoutes = require("./routes/auth_routes");
+const examRoutes = require("./routes/exam_routes");
 
 app.use('/api/auth', authRoutes);
-
+app.use('/api/exam', examRoutes);
