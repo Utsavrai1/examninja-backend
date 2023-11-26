@@ -6,6 +6,7 @@ Create Table Users(
   password Varchar(1000) Not Null,
   name Varchar(1000) Not Null,
   user_type Varchar(1000) Not Null,
+  class Varchar(1000) DEFAULT Null,
   date_registered DATE NOT NULL DEFAULT CURRENT_DATE
 );
 

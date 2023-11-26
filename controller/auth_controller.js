@@ -6,7 +6,7 @@ const colors = require("colors");
 const bcrypt = require("bcrypt");
 
 const signUp = asyncHandler(async (req, res) => {
-  const { name, email, password, user_type } = req.body;
+  const { name, email, password, user_type,studentclass } = req.body;
 
   try {
     const user_id = uuidv4().toString();
@@ -24,22 +24,41 @@ const signUp = asyncHandler(async (req, res) => {
         });
       } else {
         if (result.rows.length == 0) {
-          const query = `Insert into Users values('${user_id}','${email}', '${hashPassword}','${name}','${user_type}')`;
-          client.query(query, function (err, result) {
-            if (err) {
-              console.error("error running query", err);
-              res.status(500).json({
-                error: "Internal Server Error",
-              });
-            } else {
-              return res.status(200).json({
-                token: token,
-                user_id: user_id,
-                user_type: user_type,
-                message: "User registered successfully",
-              });
-            }
-          });
+          if (user_type === "Student") {
+            const query = `Insert into Users values('${user_id}','${email}', '${hashPassword}','${name}','${user_type}', '${studentclass}')`;
+            client.query(query, function (err, result) {
+              if (err) {
+                console.error("error running query", err);
+                res.status(500).json({
+                  error: "Internal Server Error",
+                });
+              } else {
+                return res.status(200).json({
+                  token: token,
+                  user_id: user_id,
+                  user_type: user_type,
+                  message: "User registered successfully",
+                });
+              }
+            });
+          } else {
+            const query = `Insert into Users values('${user_id}','${email}', '${hashPassword}','${name}','${user_type}')`;
+            client.query(query, function (err, result) {
+              if (err) {
+                console.error("error running query", err);
+                res.status(500).json({
+                  error: "Internal Server Error",
+                });
+              } else {
+                return res.status(200).json({
+                  token: token,
+                  user_id: user_id,
+                  user_type: user_type,
+                  message: "User registered successfully",
+                });
+              }
+            });
+          }
         } else {
           return res.status(402).json({
             error: "User already exists",
@@ -60,7 +79,7 @@ const logIn = asyncHandler(async (req, res) => {
 
   try {
     const fetchAddedUserQuery = `Select * from Users where email = '${email}'`;
-    client.query(fetchAddedUserQuery,async function (err, result) {
+    client.query(fetchAddedUserQuery, async function (err, result) {
       if (err) {
         console.error("error running query", err);
         res.status(500).json({
@@ -74,7 +93,7 @@ const logIn = asyncHandler(async (req, res) => {
         } else {
           const token = generateUserAccessToken(
             result.rows[0].user_id,
-            result.rows[0].user_type,
+            result.rows[0].user_type
           );
 
           const match = await bcrypt.compare(password, result.rows[0].password);
