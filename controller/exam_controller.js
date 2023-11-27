@@ -28,4 +28,32 @@ const createExam = asyncHandler(async (req, res)=>{
     }
 });
 
-module.exports = {createExam};
+
+const getExamByTeacherId = asyncHandler(async(req, res)=> {
+  const {teacher_id} = req.query;
+  
+  
+  try {
+    const query = `Select * from exams where teacher_id = '${teacher_id}'`;
+      client.query(query, function (err, result) {
+        if (err) {
+          console.error("error running query", err);
+          res.status(500).json({
+            error: "Internal Server Error",
+          });
+        } else {
+          return res.status(200).json({
+            message: "Exam fetched successfully",
+            data: result.rows,
+          });
+        }
+      });
+} catch (error) {
+  console.log(error);
+  res.status(500).json({
+    error: "Internal Server Error",
+  });
+}
+});
+
+module.exports = {createExam, getExamByTeacherId};
