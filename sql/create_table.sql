@@ -20,7 +20,8 @@ Create Table Exams(
   teacher_id Varchar(100) REFERENCES Users(user_id) NOT NULL,
   duration INT NOT NULL,
   title TEXT,
-  end_date Varchar(100) NOT NULL,
+  end_date Varchar(100) NOT NULL,  
+  for_class Varchar(1000) DEFAULT Null,
   date_created DATE NOT NULL DEFAULT CURRENT_DATE,
   is_live BOOLEAN DEFAULT false
 );

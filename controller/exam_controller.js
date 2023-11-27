@@ -3,11 +3,11 @@ const { v4: uuidv4 } = require("uuid");
 const client = require("../database/connection");
 
 const createExam = asyncHandler(async (req, res)=>{
-    const {subject , marks , teacher_id, duration, title, end_date} = req.body;
+    const {subject , marks , teacher_id, duration, title, end_date, classOfStudent} = req.body;
 
     try {
         const exam_id = uuidv4().toString();
-        const query = `Insert into Exams values('${exam_id}','${subject}', '${marks}','${teacher_id}','${duration}', '${title}', '${end_date}')`;
+        const query = `Insert into Exams values('${exam_id}','${subject}', '${marks}','${teacher_id}','${duration}', '${title}', '${end_date}','${classOfStudent}')`;
           client.query(query, function (err, result) {
             if (err) {
               console.error("error running query", err);
