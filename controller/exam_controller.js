@@ -34,7 +34,7 @@ const getExamByTeacherId = asyncHandler(async(req, res)=> {
   
   
   try {
-    const query = `Select * from exams where teacher_id = '${teacher_id}'`;
+    const query = `Select * from exams e, Users u where e.teacher_id = '${teacher_id}' AND e.teacher_id = u.user_id`;
       client.query(query, function (err, result) {
         if (err) {
           console.error("error running query", err);
