@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post('/createExam', createExam);
 
-router.post('/getExamByTeacherId', getExamByTeacherId);
+router.get('/getExamByTeacherId', getExamByTeacherId);
 
 module.exports = router;
