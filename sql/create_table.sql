@@ -31,14 +31,13 @@ Create Table Exams(
 CREATE TABLE Questions (
     question_id VARCHAR(100) PRIMARY KEY,
     exam_id VARCHAR(100) REFERENCES Exams(exam_id) NOT NULL,
-    question_text VARCHAR(255) NOT NULL,
-    mark INT NOT NULL
+    question_text VARCHAR(255) NOT NULL
 );
 
 --This Command Create Options Table
 
 CREATE TABLE Options (
-    option_id SERIAL PRIMARY KEY,
+    option_id VARCHAR(100) PRIMARY KEY,
     question_id VARCHAR(100) REFERENCES Questions(question_id) NOT NULL,
     option_text VARCHAR(100) NOT NULL,
     is_correct BOOLEAN NOT NULL

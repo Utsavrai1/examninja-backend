@@ -44,6 +44,8 @@ require('./database/connection');
 
 const authRoutes = require("./routes/auth_routes");
 const examRoutes = require("./routes/exam_routes");
+const questionRoutes = require("./routes/question_routes");
 
 app.use('/api/auth', authRoutes);
 app.use('/api/exam', examRoutes);
+app.use('/api/question', questionRoutes);
