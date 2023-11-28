@@ -37,6 +37,7 @@ const signUp = asyncHandler(async (req, res) => {
                   token: token,
                   user_id: user_id,
                   user_type: user_type,
+                  student_class : studentclass,
                   message: "User registered successfully",
                 });
               }
@@ -102,6 +103,7 @@ const logIn = asyncHandler(async (req, res) => {
               token: token,
               user_id: result.rows[0].user_id,
               user_type: result.rows[0].user_type,
+              student_class : result.rows[0].class,
               message: "User Logined successfully",
             });
           } else {

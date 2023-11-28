@@ -56,4 +56,31 @@ const getExamByTeacherId = asyncHandler(async(req, res)=> {
 }
 });
 
-module.exports = {createExam, getExamByTeacherId};
+
+const publishExam = asyncHandler(async (req, res)=>{
+  const {exam_id} = req.query;
+
+  try {
+    const query = `Update exams set is_live = true where exam_id = '${exam_id}'`;
+    client.query(query, function (err, result) {
+      if (err) {
+        console.error("error running query", err);
+        res.status(500).json({
+          error: "Internal Server Error",
+        });
+      } else {
+        return res.status(200).json({
+          message: "Exam is now live",
+        });
+      }
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+})
+
+module.exports = {createExam, getExamByTeacherId,publishExam};
