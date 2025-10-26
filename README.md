@@ -1,4 +1,4 @@
-# ExamNinja
+# ExamNinja 
 
 Welcome to ExamNinja – Your Ultimate Online Exam Platform!
 
